@@ -55,6 +55,18 @@
             --original-color: rgb(0, 0, 0);
             font-size: 10px;
         }
+
+        @media screen and (max-width: 768px) {
+            #terminal-container {
+                padding: 10px;
+                /* Adjust padding for smaller screens */
+            }
+
+            .terminal {
+                font-size: 16px;
+                /* Adjust font size for smaller screens */
+            }
+        }
     </style>
     </style>
 </head>
@@ -105,6 +117,25 @@
                 CLS: function () {
                 }
             };
+
+            // Script to adjust terminal height on mobile
+            function adjustTerminalHeight() {
+                var terminalHeight = window.innerHeight;
+                var terminalContainer = document.getElementById('terminal-container');
+                terminalContainer.style.height = terminalHeight + 'px';
+            }
+            // Call the function on resize and orientation change
+            window.addEventListener('resize', adjustTerminalHeight);
+            window.addEventListener('orientationchange', adjustTerminalHeight);
+
+            // Initialize the terminal height
+            adjustTerminalHeight();
+
+            // Prevent scrolling when the terminal is focused on mobile
+            document.getElementById('terminal').addEventListener('focus', function (e) {
+                e.preventDefault();
+                window.scrollTo(0, 0);
+            }, true);
 
             $('#terminal').terminal(function (command) {
                 if (command !== '') {
