@@ -63,6 +63,7 @@
 
             .terminal {
                 font-size: 16px;
+                padding-bottom: 5px;
                 /* Adjust font size for smaller screens */
             }
         }
@@ -79,22 +80,6 @@
         jQuery(function ($) {
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            // Mobile specific adjustments
-            if (isMobile) {
-                // When the terminal is focused, prevent scrolling by setting the viewport to the top
-                $('#terminal').on('focus', function () {
-                    setTimeout(function () { // Timeout to allow for keyboard to appear
-                        window.scrollTo(0, 0);
-                    }, 0);
-                });
-
-                // Event to handle resetting the viewport when terminal command is executed
-                $('#terminal').on('terminal.echo', function (e, echo_cmd) {
-                    setTimeout(function () {
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }, 0);
-                });
-            }
             var commands = {
                 hello: function () {
                     this.echo('Hello! Welcome to this terminal.');
@@ -158,13 +143,20 @@
                 }
             });
 
-            // Prevent scrolling on input focus
-            $(window).on('scroll', function (e) {
-                if (isMobile && $('#terminal').is(':focus')) {
-                    e.preventDefault();
-                    window.scrollTo(0, 0);
-                }
-            });
+            if (isMobile) {
+                // Solution for mobile view issue
+                $(window).on('touchmove', function (e) {
+                    var focused = $(':focus');
+                    if (focused.is('#terminal')) {
+                        e.preventDefault();
+                        window.scrollTo(0, focused.offset().top);
+                    }
+                });
+
+                $('#terminal').on('focus', function () {
+                    window.scrollTo(0, $(this).offset().top);
+                });
+            }
         });
     </script>
 </body>
