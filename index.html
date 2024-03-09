@@ -106,7 +106,7 @@
                 }
             };
 
-            var term = $('#terminal').terminal(function (command) {
+            $('#terminal').terminal(function (command) {
                 if (command !== '') {
                     var cmd = $.terminal.parse_command(command);
                     if (cmd.name.toLowerCase() in commands) {
@@ -118,7 +118,9 @@
             }, {
                 greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\nEnter "help" for a list of commands.',
                 prompt: 'C:\\Users\\Hello> ',
-                completion: Object.keys(commands),
+                completion: Object.keys(commands).concat(Object.keys(commands).map(function (command) {
+                    return command.toUpperCase();
+                })),
                 checkArity: false,
                 onAfterCommand: function (command) {
                     if (command.trim() !== '') {
@@ -127,21 +129,15 @@
                 }
             });
 
-            // Mobile scroll fix
-            var initialScrollPos = $(window).scrollTop();
-            term.on('touchstart', function () {
-                initialScrollPos = $(window).scrollTop();
-            });
-
-            term.keydown(function () {
-                var currentScrollPos = $(window).scrollTop();
-                if (currentScrollPos > initialScrollPos) {
-                    window.scrollTo(0, initialScrollPos);
+            // Prevent automatic scrolling on mobile when focusing the terminal
+            $(window).on('scroll', function () {
+                var terminal = $('#terminal').terminal();
+                if (terminal.is_focused()) {
+                    window.scrollTo(0, 0);
                 }
             });
         });
     </script>
-
 </body>
 
 </html>
