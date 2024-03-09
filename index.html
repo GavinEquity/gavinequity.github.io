@@ -106,7 +106,7 @@
                 }
             };
 
-            $('#terminal').terminal(function (command) {
+            var term = $('#terminal').terminal(function (command) {
                 if (command !== '') {
                     var cmd = $.terminal.parse_command(command);
                     if (cmd.name.toLowerCase() in commands) {
@@ -124,6 +124,19 @@
                     if (command.trim() !== '') {
                         this.echo('');
                     }
+                }
+            });
+
+            // Mobile scroll fix
+            var initialScrollPos = $(window).scrollTop();
+            term.on('touchstart', function () {
+                initialScrollPos = $(window).scrollTop();
+            });
+
+            term.keydown(function () {
+                var currentScrollPos = $(window).scrollTop();
+                if (currentScrollPos > initialScrollPos) {
+                    window.scrollTo(0, initialScrollPos);
                 }
             });
         });
