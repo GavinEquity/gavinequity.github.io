@@ -78,6 +78,15 @@
     </div>
     <script>
         jQuery(function ($) {
+            // Define the function that forces scroll top
+            function forceScrollTop() {
+                var scrollTop = $(window).scrollTop();
+                if (scrollTop != 0) {
+                    $(window).scrollTop(0);
+                    $('#terminal').css('opacity', 1);
+                    $(window).off('scroll', forceScrollTop); // Detach the event listener once it's no longer needed
+                }
+            }
             var commands = {
                 hello: function () {
                     this.echo('Hello! Welcome to this terminal.');
@@ -141,13 +150,18 @@
                 }
             });
 
-            // Prevent automatic scrolling on mobile when focusing the terminal
-            $(window).on('scroll', function () {
-                var terminal = $('#terminal').terminal();
-                if (terminal.is_focused()) {
-                    window.scrollTo(0, 0);
-                }
+            // Attach the event listener when the terminal is focused
+            $('#terminal').focus(function () {
+                $('#terminal').css('opacity', 0); // Set opacity to 0 to prevent jerky motion
+                $(window).on('scroll', forceScrollTop); // Attach the event listener
             });
+
+            // Reset the opacity when the terminal loses focus
+            $('#terminal').blur(function () {
+                $('#terminal').css('opacity', 1);
+                $(window).off('scroll', forceScrollTop); // Detach the event listener
+            });
+
         });
     </script>
 </body>
