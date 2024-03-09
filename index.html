@@ -92,10 +92,10 @@
                         'Building something amazing? DM us on [[!;;;;https://twitter.com/GavinEquity]Twitter].');
                 },
                 help: function () {
-                    this.echo('WHATDOWEDO         Provides a brief overview of who we are and what we do.\n' +
-                        'WHOAMI             Who are we?\n' +
-                        'HELP               Provides Help information for terminal commands.\n' +
-                        'CLEAR or CLS       Clears the screen.');
+                    this.echo('WHATDOWEDO\n' +
+                        'WHOAMI\n' +
+                        'HELP\n' +
+                        'CLEAR or CLS');
                 },
                 clear: function () {
                     this.clear();
@@ -104,7 +104,7 @@
                     this.clear();
                 },
 
-                /*COMMANDS FOR AUTO COMPLETING IN CAPS*/
+                /*auto complete in caps*/
                 HELLO: function () {
                 },
                 WHOAMI: function () {
@@ -143,7 +143,7 @@
             });
 
             if (isMobile) {
-                // Solution for mobile view issue
+                // mobile view 
                 $(window).on('touchmove', function (e) {
                     var focused = $(':focus');
                     if (focused.is('#terminal')) {
