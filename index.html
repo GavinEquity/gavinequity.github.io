@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.7">
+    <meta name="viewport" content="width=device-width, initial-scale=0.7, user-scalable=no">
     <title>Gavin Equity</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/j3vFg01/ge-DP-removebg.png">
     <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
@@ -117,25 +117,6 @@
                 CLS: function () {
                 }
             };
-
-            // Script to adjust terminal height on mobile
-            function adjustTerminalHeight() {
-                var terminalHeight = window.innerHeight;
-                var terminalContainer = document.getElementById('terminal-container');
-                terminalContainer.style.height = terminalHeight + 'px';
-            }
-            // Call the function on resize and orientation change
-            window.addEventListener('resize', adjustTerminalHeight);
-            window.addEventListener('orientationchange', adjustTerminalHeight);
-
-            // Initialize the terminal height
-            adjustTerminalHeight();
-
-            // Prevent scrolling when the terminal is focused on mobile
-            document.getElementById('terminal').addEventListener('focus', function (e) {
-                e.preventDefault();
-                window.scrollTo(0, 0);
-            }, true);
 
             $('#terminal').terminal(function (command) {
                 if (command !== '') {
