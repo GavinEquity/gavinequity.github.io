@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gavin Equity</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/j3vFg01/ge-DP-removebg.png">
     <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
@@ -65,7 +66,7 @@
     </div>
     <script>
         jQuery(function ($) {
-            $('#terminal').terminal({
+            var commands = {
                 hello: function () {
                     this.echo('Hello! Welcome to this terminal.');
                 },
@@ -81,32 +82,68 @@
                     this.echo('whatdowedo         Provides a brief overview of who we are and what we do.\n' +
                         'whoami             Who are we?\n' +
                         'help               Provides Help information for terminal commands.\n' +
-                        'clear or cls       Clears the screen. ');
+                        'clear or cls       Clears the screen.');
                 },
                 clear: function () {
                     this.clear();
                 },
                 cls: function () {
                     this.clear();
+                },
+
+
+                HELLO: function () {
+                    this.echo('Hello! Welcome to this terminal.');
+                },
+                WHOAMI: function () {
+                    this.echo('Gavin Equity');
+                },
+                WHATDOWEDO: function () {
+                    this.echo('Active investors with deep crypto market expertise\n' +
+                        'Spot, Delta 1 derivatives, Options, and DeFi Protocols\n' +
+                        'Building something amazing? DM us on [[!;;;;https://twitter.com/GavinEquity]Twitter].');
+                },
+                HELP: function () {
+                    this.echo('whatdowedo         Provides a brief overview of who we are and what we do.\n' +
+                        'whoami             Who are we?\n' +
+                        'help               Provides Help information for terminal commands.\n' +
+                        'clear or cls       Clears the screen.');
+                },
+                CLEAR: function () {
+                    this.clear();
+                },
+                CLS: function () {
+                    this.clear();
                 }
+            };
 
+            $('#terminal').terminal(function (command) {
+                if (command !== '') {
+                    var cmd = $.terminal.parse_command(command);
+                    if (cmd.name.toLowerCase() in commands) {
+                        commands[cmd.name.toLowerCase()].apply(this, cmd.args);
+                    } else {
+                        this.error('Command not found!');
+                    }
+                }
             }, {
-
-                greetings: "Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\nEnter 'help' for a list of commands. ",
-
-                prompt: 'C:\\Users\\Hello> ',
-                onBlur: function () { return false; }, // Keep the terminal focused
+                greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\nEnter "help" for a list of commands.',
+                prompt: 'C:\\Users\\Gavin> ',
+                onBlur: function () {
+                    return false;
+                },
+                completion: Object.keys(commands),
                 checkArity: false,
-                completion: true,
-                clear: false,
                 onAfterCommand: function (command) {
                     if (command.trim() !== '') {
-                        this.echo('\n'); // Add a newline after the command output
+                        this.echo('');
                     }
                 }
             });
         });
     </script>
+
+
 
 </body>
 
