@@ -149,19 +149,24 @@
                     }
                 }
             });
+            // Solution for mobile view issue
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                $(document).on('focus', 'input', function () {
+                    setTimeout(function () { // Timeout to allow for keyboard to appear
+                        window.scrollTo(0, 0);
+                    }, 0);
+                });
+            }
 
-            // Attach the event listener when the terminal is focused
-            $('#terminal').focus(function () {
-                $('#terminal').css('opacity', 0); // Set opacity to 0 to prevent jerky motion
-                $(window).on('scroll', forceScrollTop); // Attach the event listener
+            // Reset scroll position after terminal command execution
+            $('#terminal').on('terminal.echo', function (e, echo_cmd) {
+                if (isMobile) {
+                    setTimeout(function () {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }, 0);
+                }
             });
-
-            // Reset the opacity when the terminal loses focus
-            $('#terminal').blur(function () {
-                $('#terminal').css('opacity', 1);
-                $(window).off('scroll', forceScrollTop); // Detach the event listener
-            });
-
         });
     </script>
 </body>
