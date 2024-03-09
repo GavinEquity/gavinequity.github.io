@@ -19,13 +19,11 @@
             padding: 0;
             font-family: monospace;
             background-color: black;
-            /*
             background-image: url('https://i.ibb.co/5nCz9CQ/geascii-dulled.png');
             background-repeat: no-repeat;
             background-position: center center;
             background-size: 35%;
             overflow: hidden;
-            */
         }
 
         #terminal-container {
@@ -35,7 +33,6 @@
             z-index: 10;
             padding: 25px;
             box-sizing: border-box;
-            height: calc(100% - 25px);
 
         }
 
@@ -80,14 +77,23 @@
     </div>
     <script>
         jQuery(function ($) {
-            // Define the function that forces scroll top
-            function forceScrollTop() {
-                var scrollTop = $(window).scrollTop();
-                if (scrollTop != 0) {
-                    $(window).scrollTop(0);
-                    $('#terminal').css('opacity', 1);
-                    $(window).off('scroll', forceScrollTop); // Detach the event listener once it's no longer needed
-                }
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            // Mobile specific adjustments
+            if (isMobile) {
+                // When the terminal is focused, prevent scrolling by setting the viewport to the top
+                $('#terminal').on('focus', function () {
+                    setTimeout(function () { // Timeout to allow for keyboard to appear
+                        window.scrollTo(0, 0);
+                    }, 0);
+                });
+
+                // Event to handle resetting the viewport when terminal command is executed
+                $('#terminal').on('terminal.echo', function (e, echo_cmd) {
+                    setTimeout(function () {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    }, 0);
+                });
             }
             var commands = {
                 hello: function () {
@@ -151,22 +157,12 @@
                     }
                 }
             });
-            // Solution for mobile view issue
-            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                $(document).on('focus', 'input', function () {
-                    setTimeout(function () { // Timeout to allow for keyboard to appear
-                        window.scrollTo(0, 0);
-                    }, 0);
-                });
-            }
 
-            // Reset scroll position after terminal command execution
-            $('#terminal').on('terminal.echo', function (e, echo_cmd) {
-                if (isMobile) {
-                    setTimeout(function () {
-                        window.scrollTo(0, document.body.scrollHeight);
-                    }, 0);
+            // Prevent scrolling on input focus
+            $(window).on('scroll', function (e) {
+                if (isMobile && $('#terminal').is(':focus')) {
+                    e.preventDefault();
+                    window.scrollTo(0, 0);
                 }
             });
         });
