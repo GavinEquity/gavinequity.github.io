@@ -46,8 +46,8 @@
             font-size: 16px;
             white-space: pre-wrap;
             word-wrap: break-word;
-            --color: #1BFD9C;
-            --link-color: rgb(255, 255, 255);
+            --color: #ffffff;
+            --link-color: #1BFD9C;
             --animation: terminal-glow;
             --glow: 2;
             --size: 1.25;
@@ -57,13 +57,9 @@
 
         }
 
-        /* New rule for terminal output to prevent horizontal overflow */
         .terminal .terminal-output div div {
             overflow-wrap: break-word;
         }
-
-        /* ...media queries and other styles... */
-
 
         .cmd-cursor {
             --original-color: rgb(0, 0, 0);
@@ -71,10 +67,9 @@
         }
 
 
-
         @media screen and (max-width: 768px) {
 
-            /* Smaller font and more padding for smaller screens */
+
             .terminal {
                 font-size: 12px;
                 padding: 5px;
@@ -82,7 +77,6 @@
                 word-break: break-word;
             }
 
-            /* Ensure terminal container is not causing overflow */
             #terminal-container {
                 padding: 15px;
                 width: 99%;
@@ -100,7 +94,6 @@
     </div>
     <script>
 
-
         jQuery(function ($) {
             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
@@ -115,10 +108,10 @@
                     this.echo('Building something amazing? DM us on [[!;;;;https://twitter.com/GavinEquity]Twitter]');
                 },
                 help: function () {
-                    this.echo('CONTACT\n' +
-                        'WHOAMI\n' +
-                        'HELP\n' +
-                        'CLEAR or CLS');
+                    this.echo('contact\n' +
+                        'whoami\n' +
+                        'help\n' +
+                        'clear or cls');
                 },
                 clear: function () {
                     this.clear();
@@ -142,6 +135,8 @@
                 }
             };
 
+            var commandList = Object.keys(commands);
+
             $('#terminal').terminal(function (command) {
                 if (command !== '') {
                     var cmd = $.terminal.parse_command(command);
@@ -153,7 +148,7 @@
                 }
             }, {
                 greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\nType "help" for a list of commands.',
-                prompt: 'C:\\Users\\Hello> ',
+                prompt: 'C:\\Users\\hello> ',
                 completion: Object.keys(commands).concat(Object.keys(commands).map(function (command) {
                     return command.toUpperCase();
                 })),
