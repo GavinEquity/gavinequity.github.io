@@ -38,9 +38,6 @@
 
         }
 
-        /* ...other styles... */
-
-
         .terminal {
             background-color: transparent;
             width: 100%;
@@ -48,9 +45,7 @@
             overflow-y: auto;
             font-size: 16px;
             white-space: pre-wrap;
-            /* Allow command and result to go on a new line */
             word-wrap: break-word;
-            /* Break words at the end of the terminal width */
             --color: #1BFD9C;
             --link-color: rgb(255, 255, 255);
             --animation: terminal-glow;
@@ -58,10 +53,8 @@
             --size: 1.5;
             --line-thickness: 1;
             white-space: pre-wrap;
-            /* Allows text to wrap within the container */
             word-break: break-word;
-            /* Ensures words break at the edge of the container */
-            /* ...other styles... */
+
         }
 
         /* New rule for terminal output to prevent horizontal overflow */
@@ -85,12 +78,16 @@
             .terminal {
                 font-size: 12px;
                 padding: 5px;
+                white-space: pre-wrap;
+                word-break: break-word;
             }
 
             /* Ensure terminal container is not causing overflow */
             #terminal-container {
                 padding: 15px;
                 width: 99%;
+                white-space: pre-wrap;
+                word-break: break-word;
             }
         }
     </style>
