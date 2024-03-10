@@ -59,6 +59,25 @@
             --original-color: rgb(0, 0, 0);
             font-size: 10px;
         }
+        
+        .terminal {
+    white-space: pre-wrap; /* Ensures the text wraps */
+    word-break: break-word; /* Breaks words to prevent overflow */
+    /* Other existing styles */
+}
+
+@media screen and (max-width: 768px) {
+    /* Smaller font and more padding for smaller screens */
+    .terminal {
+        font-size: 14px; /* Adjust if needed */
+        padding: 0 5px; /* Adjust if needed */
+    }
+    /* Ensure terminal container is not causing overflow */
+    #terminal-container {
+        padding: 0;
+        width: 100%;
+    }
+}
 
         /* This will adjust the font size on smaller screens */
         @media screen and (max-width: 768px) {
