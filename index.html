@@ -55,21 +55,12 @@
             --line-thickness: 1;
         }
         
-        .terminal-output div div {
-    white-space: pre-wrap; /* Allows text to wrap to the next line */
-    word-break: break-word; /* Breaks the word to prevent horizontal overflow */
-}
 
         .cmd-cursor {
             --original-color: rgb(0, 0, 0);
             font-size: 10px;
         }
         
-        .terminal {
-    white-space: pre-wrap; /* Ensures the text wraps */
-    word-break: break-word; /* Breaks words to prevent overflow */
-    /* Other existing styles */
-}
 
 @media screen and (max-width: 768px) {
     /* Smaller font and more padding for smaller screens */
@@ -80,22 +71,11 @@
     /* Ensure terminal container is not causing overflow */
     #terminal-container {
         padding: 0;
-        width: 100%;
+        width: 95%;
     }
 }
 
-        /* This will adjust the font size on smaller screens */
-        @media screen and (max-width: 768px) {
-            .terminal {
-                font-size: 14px;
-                /* Adjust the font size for smaller screens */
-            }
-
-            #terminal-container {
-                padding: 5px;
-                /* Adjust the padding for smaller screens if needed */
-            }
-        }
+    
     </style>
     </style>
 </head>
