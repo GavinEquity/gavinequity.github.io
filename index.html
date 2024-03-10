@@ -54,6 +54,11 @@
             --size: 1.5;
             --line-thickness: 1;
         }
+        
+        .terminal-output div div {
+    white-space: pre-wrap; /* Allows text to wrap to the next line */
+    word-break: break-word; /* Breaks the word to prevent horizontal overflow */
+}
 
         .cmd-cursor {
             --original-color: rgb(0, 0, 0);
