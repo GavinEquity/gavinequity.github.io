@@ -100,45 +100,34 @@
 
             var commands = {
                 hello: function () {
-                    this.echo('Hello! Welcome to this terminal.');
+                    var anim = new TextAnimation('Hello! Welcome to the GE Terminal.');
+                    anim.start(this);
                 },
                 whoami: function () {
-                    this.echo('Gavin Equity');
+                    var anim = new TextAnimation('Gavin Equity');
+                    anim.start(this);
+
                 },
                 contact: function () {
                     this.echo('Building something amazing? DM us on [[!;;;;https://twitter.com/GavinEquity]Twitter]');
                 },
                 help: function () {
-                    this.echo('contact\n' +
+                    var anim = new TextAnimation('help\n' +
+                        'hello\n' +
                         'whoami\n' +
-                        'help\n' +
+                        'contact\n' +
                         'clear or cls');
+                    anim.start(this);
                 },
                 clear: function () {
                     this.clear();
                 },
                 cls: function () {
                     this.clear();
-                },
-
-                /*auto complete in caps*/
-                HELLO: function () {
-                },
-                WHOAMI: function () {
-                },
-                CONTACT: function () {
-                },
-                HELP: function () {
-                },
-                CLEAR: function () {
-                },
-                CLS: function () {
                 }
             };
 
-            var commandList = Object.keys(commands);
-
-            $('#terminal').terminal(function (command) {
+            var term = $('#terminal').terminal(function (command) {
                 if (command !== '') {
                     var cmd = $.terminal.parse_command(command);
                     if (cmd.name.toLowerCase() in commands) {
@@ -148,7 +137,7 @@
                     }
                 }
             }, {
-                greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\nType "help" for a list of commands.',
+                greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\n[[;#ffffff;]Type [[;#1BFD9C;]help[[;#ffffff;] for a list of commands.',
                 prompt: 'C:\\Users\\hello> ',
                 completion: Object.keys(commands).concat(Object.keys(commands).map(function (command) {
                     return command.toUpperCase();
@@ -161,8 +150,96 @@
                 }
             });
 
+            // Animation flag and delay
+            var animation = false;
+            var delay = 25;
+
+            // Characters used for animation
+            var chars = ordArray('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
+
+            // TextAnimation class
+            class TextAnimation {
+                constructor(string) {
+                    var input = string.split(/(\s+)/);
+                    this._origin = string;
+                    this._ords = input.map(str => {
+                        if (isSpace(str)) {
+                            return str;
+                        }
+                        return {
+                            current: randomCharArray(str.length, chars),
+                            origin: ordArray(str)
+                        };
+                    });
+                }
+                start(term) {
+                    animation = true;
+                    term.echo(this.toString());
+                    var index = term.last_index();
+                    var timer = setInterval(() => {
+                        this.forward();
+                        var newString = this.toString();
+                        if (newString === this._origin) {
+                            clearInterval(timer);
+                            animation = false;
+                        }
+                        term.update(index, newString);
+                    }, delay);
+                }
+                toString() {
+                    return this._ords.map(item => {
+                        if (isObject(item)) {
+                            return item.current.map(ord => {
+                                return String.fromCharCode(ord);
+                            }).join('');
+                        }
+                        return item;
+                    }).join('');
+                }
+                forward() {
+                    this._ords.forEach((obj, i) => {
+                        if (isObject(obj)) {
+                            var word = this._ords[i];
+                            obj.current = obj.current.map((ord, i) => {
+                                return forwardChar(ord, word.origin[i]);
+                            });
+                        }
+                    });
+                }
+            }
+
+            // Helper functions for TextAnimation
+            function forwardChar(ord, origin) {
+                if (ord < origin) {
+                    return ord + 1;
+                } else if (ord > origin) {
+                    return ord - 1;
+                }
+                return origin;
+            }
+
+            function isObject(obj) {
+                return obj && typeof obj === 'object' && !Array.isArray(obj);
+            }
+
+            function isSpace(str) {
+                return /\s/.test(str);
+            }
+
+            function ordArray(string) {
+                return Array.from(string).map(char => char.charCodeAt(0));
+            }
+
+            function rnd(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            function randomCharArray(length, chars) {
+                return Array.from({ length }, () => rnd(chars));
+            }
+
+            // Adjust for mobile view if necessary
             if (isMobile) {
-                // mobile view 
                 $(window).on('touchmove', function (e) {
                     var focused = $(':focus');
                     if (focused.is('#terminal')) {
@@ -175,8 +252,11 @@
                     window.scrollTo(0, $(this).offset().top);
                 });
             }
+
         });
+
     </script>
+
 </body>
 
 </html>
