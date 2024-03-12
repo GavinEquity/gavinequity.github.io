@@ -54,7 +54,7 @@
             --link-color: #1BFD9C;
             --animation: terminal-glow;
             --glow: 2;
-            --size: 1.8 !important;
+            --size: 1.9 !important;
             --line-thickness: 1;
             white-space: pre-wrap;
             word-break: break-word;
@@ -115,13 +115,19 @@
 
         @media screen and (max-width: 768px) {
 
+            body,
+            html {
+                height: 70%;
+                background-size: 55%;
+            }
+
 
             .terminal {
                 font-size: 12px;
                 padding: 5px;
                 white-space: pre-wrap;
                 word-break: break-word;
-                --size: 1.3 !important;
+                --size: 1.5 !important;
             }
 
             #terminal-container {
