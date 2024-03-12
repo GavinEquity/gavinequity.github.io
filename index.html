@@ -66,6 +66,23 @@
             font-size: 10px;
         }
 
+        .item {
+            --color: #1BFD9C;
+            cursor: crosshair;
+            --glow: 1;
+            transition: --color 0.5s linear;
+        }
+
+        .item:hover {
+            --color: hsl(0, 100%, 50%);
+        }
+
+        @property --color {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #1BFD9C;
+        }
+
 
         @media screen and (max-width: 768px) {
 
@@ -137,7 +154,7 @@
                     }
                 }
             }, {
-                greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\n[[;#ffffff;]Type [[;#1BFD9C;]help[[;#ffffff;] for a list of commands.',
+                greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\nType [[;;;item]help] for a list of commands.',
                 prompt: 'C:\\Users\\hello> ',
                 completion: Object.keys(commands).concat(Object.keys(commands).map(function (command) {
                     return command.toUpperCase();
@@ -149,6 +166,7 @@
                     }
                 }
             });
+
 
             // Animation flag and delay
             var animation = false;
