@@ -50,7 +50,7 @@
             --link-color: #1BFD9C;
             --animation: terminal-glow;
             --glow: 2;
-            --size: 1.5 !important;
+            --size: 1.8 !important;
             --line-thickness: 1;
             white-space: pre-wrap;
             word-break: break-word;
@@ -62,7 +62,7 @@
         }
 
         .cmd-cursor {
-            --original-color: rgb(0, 0, 0);
+            --original-color: #1BFD9C;
             font-size: 10px;
         }
 
@@ -117,7 +117,7 @@
                 padding: 5px;
                 white-space: pre-wrap;
                 word-break: break-word;
-                --size: 1.25 !important;
+                --size: 1.3 !important;
             }
 
             #terminal-container {
@@ -180,7 +180,7 @@
                 }
             }, {
                 greetings: 'Gavin Equity [Version 10.10.10.1]\n(c) 2024 GE Enterprises. All rights reserved.\n\nType [[;;;item]help] for a list of commands.',
-                prompt: 'C:\\Users\\hello> ',
+                prompt: '[[;;;item]> ]',
                 completion: Object.keys(commands).concat(Object.keys(commands).map(function (command) {
                     return command.toUpperCase();
                 })),
